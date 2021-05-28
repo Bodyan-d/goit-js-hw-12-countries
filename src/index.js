@@ -8,7 +8,6 @@ import Toastify from 'toastify-js';
 
 const debounce = require('lodash.debounce');
 
-const formRef = document.querySelector('.form');
 const inputRef = document.querySelector('[data-input]');
 const listRef = document.querySelector('.list-js');
 
@@ -60,5 +59,4 @@ function moreTenCountries(items) {
         }).showToast();
         return;
     };
-
 };
