@@ -1,5 +1,6 @@
 import './sass/main.scss';
 import countriesTpl from './templates/list-countries.hbs'
+import singleCountrieTpl from './templates/single-countrie.hbs'
 import fetchCountries from './fetchCountries';
 import { defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
 import { alert, notice, info, success, error } from '@pnotify/core';
@@ -20,18 +21,41 @@ const myAlert = error({
     mode: 'dark',
 });
 
+
 function onInput(e) {
 
-    const countries = fetchCountries(e.target.value);
-    if (!countries) { return; };
+    const countries = e.target.value;
+    if (!countries) {
+        return;
+    }
 
-    countries.then(r => {
-        const countriesMarckp = countriesTpl(r);
-        listRef.insertAdjacentHTML('beforeend', countriesMarckp)
-        console.log();
+    fetchCountries(countries).then(r => {
+        if (r.length >= 10) {
+            moreTenCountries(r)
+            return;
+        };
+
+        if (r.length > 1) {
+            addMultiMurkup(r);
+        } else {
+            addSingleMurkup(r);
+        };
+
     });
-
 }
+
+function addMultiMurkup(r) {
+    listRef.innerHTML = "";
+    const countriesMarckps = countriesTpl(r);
+    return listRef.insertAdjacentHTML('beforeend', countriesMarckps);
+};
+
+function addSingleMurkup(r) {
+    listRef.innerHTML = "";
+    const countriesMarckp = singleCountrieTpl(r);
+    return listRef.insertAdjacentHTML('beforeend', countriesMarckp);
+}
+
 
 function moreTenCountries(items) {
     let errorIsOpen = false;
@@ -39,9 +63,11 @@ function moreTenCountries(items) {
     if (items.length >= 10) {
         errorIsOpen = true;
         myAlert.open();
-        console.log(errorIsOpen);
+        return;
+    };
 
-    } else if (!errorIsOpen) {
+    if (errorIsOpen) {
+        errorIsOpen = false;
         myAlert.close();
 
     };

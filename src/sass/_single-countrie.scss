@@ -1,0 +1,33 @@
+.countries {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0px;
+    .countrie {
+        display: flex;
+        list-style: none;
+        &-single {}
+        &-title {
+            padding-left: 100px;
+        }
+        &-info {
+            padding: 0px;
+            list-style: none;
+            margin-right: 40px;
+        }
+        &-item {
+            display: flex;
+            align-items: center;
+        }
+        &-subtitle {
+            margin-right: 10px;
+        }
+        &-flag {
+            display: inline-block;
+            outline: 1px black solid;
+            width: 400px;
+        }
+    }
+}
