@@ -1,11 +1,28 @@
 import './sass/main.scss';
+
 import countriesTpl from './templates/list-countries.hbs'
 import singleCountrieTpl from './templates/single-countrie.hbs'
 import fetchCountries from './fetchCountries';
-import { defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
-const { alert, notice, info, success, error } = require('@pnotify/core');
-import * as PNotifyFontAwesome4 from '@pnotify/font-awesome4';
-defaultModules.set(PNotifyFontAwesome4, {});
+
+import { error, alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
+import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
+
+defaultModules.set(PNotifyMobile, {});
+
+const myError = error({
+    text: 'Too many matches found. Please enter a more specific querty!',
+    autoOpen: false,
+    delay: 4000,
+
+});
+
+const myAlert = alert({
+    text: "I'm an alert.",
+    type: 'info',
+    autoOpen: false,
+});
+
+
 const debounce = require('lodash.debounce');
 
 const formRef = document.querySelector('.form');
@@ -13,36 +30,6 @@ const inputRef = document.querySelector('[data-input]');
 const listRef = document.querySelector('.list-js');
 
 inputRef.addEventListener('input', debounce(onInput, 500));
-
-
-// Manually set the type.
-const myAlert = alert({
-    text: "I'm an alert.",
-    type: 'info',
-    autoOpen: false,
-});
-
-// Automatically set the type.
-const myNotice = notice({
-    text: "I'm a notice.",
-    autoOpen: false,
-});
-
-const myInfo = info({
-    text: "I'm an info message.",
-    autoOpen: false,
-});
-
-const mySuccess = success({
-    text: "I'm a success message.",
-    autoOpen: false,
-});
-
-const myError = error({
-    text: "I'm an error message.",
-    autoOpen: false,
-});
-
 
 function onInput(e) {
 
@@ -82,7 +69,7 @@ function addSingleMurkup(r) {
 function moreTenCountries(items) {
     let errorIsOpen = false;
 
-    if (items.length >= 10 || !errorIsOpen) {
+    if (items.length >= 10 && !errorIsOpen) {
         errorIsOpen = true;
         myError.open();
         return;
