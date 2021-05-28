@@ -9,12 +9,14 @@ import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobi
 
 defaultModules.set(PNotifyMobile, {});
 
-const myError = error({
-    text: 'Too many matches found. Please enter a more specific querty!',
-    autoOpen: false,
-    delay: 4000,
 
-});
+//const myError = error({
+//    text: 'Too many matches found. Please enter a more specific querty!',
+//  autoOpen: false,
+//   delay: 4000,
+//   closerHover: false,
+//
+//});
 
 const myAlert = alert({
     text: "I'm an alert.",
@@ -67,18 +69,14 @@ function addSingleMurkup(r) {
 
 
 function moreTenCountries(items) {
-    let errorIsOpen = false;
+    if (items.length >= 10) {
+        error({
+            text: 'Too many matches found. Please enter a more specific querty!',
+            delay: 3000,
+            closerHover: false,
 
-    if (items.length >= 10 && !errorIsOpen) {
-        errorIsOpen = true;
-        myError.open();
+        });
         return;
-    };
-
-    if (errorIsOpen) {
-        errorIsOpen = false;
-        myError.close();
-
     };
 
 };
