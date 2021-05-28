@@ -3,7 +3,7 @@ import countriesTpl from './templates/list-countries.hbs'
 import singleCountrieTpl from './templates/single-countrie.hbs'
 import fetchCountries from './fetchCountries';
 import { defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
-import { alert, notice, info, success, error } from '@pnotify/core';
+const { alert, notice, info, success, error } = require('@pnotify/core');
 import * as PNotifyFontAwesome4 from '@pnotify/font-awesome4';
 defaultModules.set(PNotifyFontAwesome4, {});
 const debounce = require('lodash.debounce');
@@ -14,11 +14,33 @@ const listRef = document.querySelector('.list-js');
 
 inputRef.addEventListener('input', debounce(onInput, 500));
 
-const myAlert = error({
-    text: "I'm an error.",
-    type: 'error',
+
+// Manually set the type.
+const myAlert = alert({
+    text: "I'm an alert.",
+    type: 'info',
     autoOpen: false,
-    mode: 'dark',
+});
+
+// Automatically set the type.
+const myNotice = notice({
+    text: "I'm a notice.",
+    autoOpen: false,
+});
+
+const myInfo = info({
+    text: "I'm an info message.",
+    autoOpen: false,
+});
+
+const mySuccess = success({
+    text: "I'm a success message.",
+    autoOpen: false,
+});
+
+const myError = error({
+    text: "I'm an error message.",
+    autoOpen: false,
 });
 
 
@@ -60,15 +82,15 @@ function addSingleMurkup(r) {
 function moreTenCountries(items) {
     let errorIsOpen = false;
 
-    if (items.length >= 10) {
+    if (items.length >= 10 || !errorIsOpen) {
         errorIsOpen = true;
-        myAlert.open();
+        myError.open();
         return;
     };
 
     if (errorIsOpen) {
         errorIsOpen = false;
-        myAlert.close();
+        myError.close();
 
     };
 
