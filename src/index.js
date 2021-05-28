@@ -4,26 +4,7 @@ import countriesTpl from './templates/list-countries.hbs'
 import singleCountrieTpl from './templates/single-countrie.hbs'
 import fetchCountries from './fetchCountries';
 
-import { error, alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
-import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
-
-defaultModules.set(PNotifyMobile, {});
-
-
-//const myError = error({
-//    text: 'Too many matches found. Please enter a more specific querty!',
-//  autoOpen: false,
-//   delay: 4000,
-//   closerHover: false,
-//
-//});
-
-const myAlert = alert({
-    text: "I'm an alert.",
-    type: 'info',
-    autoOpen: false,
-});
-
+import Toastify from 'toastify-js';
 
 const debounce = require('lodash.debounce');
 
@@ -41,6 +22,7 @@ function onInput(e) {
     }
 
     fetchCountries(countries).then(r => {
+        listRef.innerHTML = "";
         if (r.length >= 10) {
             moreTenCountries(r)
             return;
@@ -56,13 +38,13 @@ function onInput(e) {
 }
 
 function addMultiMurkup(r) {
-    listRef.innerHTML = "";
+
     const countriesMarckps = countriesTpl(r);
     return listRef.insertAdjacentHTML('beforeend', countriesMarckps);
 };
 
 function addSingleMurkup(r) {
-    listRef.innerHTML = "";
+
     const countriesMarckp = singleCountrieTpl(r);
     return listRef.insertAdjacentHTML('beforeend', countriesMarckp);
 }
@@ -70,12 +52,12 @@ function addSingleMurkup(r) {
 
 function moreTenCountries(items) {
     if (items.length >= 10) {
-        error({
-            text: 'Too many matches found. Please enter a more specific querty!',
-            delay: 3000,
-            closerHover: false,
-
-        });
+        Toastify({
+            text: "Too many matches found. Please enter a more specific querty!",
+            destination: "https://github.com/apvarun/toastify-js",
+            close: true,
+            backgroundColor: "linear-gradient(to right, #f13d3d, #7d0b0b)",
+        }).showToast();
         return;
     };
 
