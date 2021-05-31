@@ -16,7 +16,7 @@ inputRef.addEventListener('input', debounce(onInput, 500));
 function onInput(e) {
 
     const countries = e.target.value;
-    if (!countries) {
+    if (!countries.trim()) {
         return;
     }
 
